@@ -1,0 +1,110 @@
+local jdtls_ok, jdtls = pcall(require, "jdtls")
+if not jdtls_ok then
+  vim.notify "JDTLS not found, install with `:LspInstall jdtls`"
+  return
+end
+
+-- https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+local jdtls = require('jdtls')
+
+local function nnoremap(rhs, lhs, bufopts, desc)
+    bufopts.desc = desc
+    vim.keymap.set("n", rhs, lhs, bufopts)
+end
+
+-- The on_attach function is used to set key maps after the language server
+-- attaches to the current buffer
+-- local on_attach = function(_, bufnr)
+--     vim.notify("jdtls on_attach called")
+--
+--     -- Regular Neovim LSP client keymappings
+--     local bufopts = { noremap = true, silent = true, buffer = bufnr }
+--     nnoremap('gD', vim.lsp.buf.declaration, bufopts, "Go to declaration")
+--     nnoremap('gd', vim.lsp.buf.definition, bufopts, "Go to definition")
+--     nnoremap('gi', vim.lsp.buf.implementation, bufopts, "Go to implementation")
+--     nnoremap('K', vim.lsp.buf.hover, bufopts, "Hover text")
+--     nnoremap('', vim.lsp.buf.signature_help, bufopts, "Show signature")
+--     nnoremap('wa', vim.lsp.buf.add_workspace_folder, bufopts, "Add workspace folder")
+--     nnoremap('wr', vim.lsp.buf.remove_workspace_folder, bufopts, "Remove workspace folder")
+--     nnoremap('wl', function()
+--         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+--     end, bufopts, "List workspace folders")
+--     nnoremap('D', vim.lsp.buf.type_definition, bufopts, "Go to type definition")
+--     nnoremap('<Space>rn', vim.lsp.buf.rename, bufopts, "Rename")
+--     nnoremap('<Space>ca', vim.lsp.buf.code_action, bufopts, "Code actions")
+--     vim.keymap.set('v', "ca", "lua vim.lsp.buf.range_code_action()",
+--         { noremap = true, silent = true, buffer = bufnr, desc = "Code actions" })
+--     nnoremap('f', function() vim.lsp.buf.format { async = true } end, bufopts, "Format file")
+--
+--     -- Java extensions provided by jdtls
+--     nnoremap("", jdtls.organize_imports, bufopts, "Organize imports")
+--     nnoremap("ev", jdtls.extract_variable, bufopts, "Extract variable")
+--     nnoremap("ec", jdtls.extract_constant, bufopts, "Extract constant")
+--     vim.keymap.set('v', "em", [[lua require('jdtls').extract_method(true)]],
+--         { noremap = true, silent = true, buffer = bufnr, desc = "Extract method" })
+-- end
+
+
+local on_attach = function(client, bufnr)
+    vim.notify("jdtls on_attach called")
+
+    jdtls.setup_dap { hotcodereplace = "auto" }
+    require("jdtls.dap").setup_dap_main_class_configs()
+    require("jdtls.setup").add_commands()
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set('n', '<space>wl', function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, bufopts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+end
+
+local config = {
+    cmd = { 'jdtls' },
+    -- cmd = {
+    --     'java', -- or '/path/to/java17_or_newer/bin/java'
+    --     -- depends on if `java` is in your $PATH env variable and if it points to the right version.
+    --
+    --     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+    --     '-Dosgi.bundles.defaultStartLevel=4',
+    --     '-Declipse.product=org.eclipse.jdt.ls.core.product',
+    --     '-Dlog.protocol=true',
+    --     '-Dlog.level=ALL',
+    --     '-Xmx1g',
+    --     '--add-modules=ALL-SYSTEM',
+    --     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+    --     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+    --
+    --     '-jar',
+    --     '/Users/antmarqu3/workspace-perso/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/plugins/org.eclipse.equinox.launcher_1.6.500.v20230717-2134.jar',
+    --     '-configuration',
+    --     '/Users/antmarqu3/workspace-perso/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/config_mac',
+    --     "-data", "/Users/antmarqu3/local/share/nvim/java"
+
+    root_dir = vim.fs.dirname(vim.fs.find({ 'gradlew', '.git', 'mvnw' }, { upward = true })[1]),
+    on_attach = on_attach,
+    capabilities = capabilities,
+    init_options = {
+        bundles = {
+            vim.fn.glob(
+                "/Users/antmarqu3/.m2/repository/com/microsoft/java/com.microsoft.java.debug.plugin/0.49.0/com.microsoft.java.debug.plugin-*.jar",
+                1)
+        }
+    },
+}
+require('jdtls').start_or_attach(config)

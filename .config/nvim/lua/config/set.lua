@@ -25,6 +25,6 @@ set.signcolumn = "yes"
 set.updatetime = 50
 
 set.colorcolumn = "80"
-set.cursorline = true
-
-vim.api.nvim_set_hl(0,"Cursorline", { underline=true})
+--set.cursorline = true
+--
+--vim.api.nvim_set_hl(0,"Cursorline", { underline=true})

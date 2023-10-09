@@ -24,6 +24,7 @@ return {
 				"dockerfile",
 				"gitignore",
 				"hcl",
+				"java",
 			},
 			sync_install = false,
 			highlight = { enable = true },

@@ -2,16 +2,24 @@
 Store my dotfiles
 
 ## Prerequisites
-- git
-- font-jetbrains-mono-nerd-font
-- ripgrep
-- tmux
-- thefuck
-- nvm
-- neovim
-- lazygit
+### Terminal
+- /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+- brew install git 
+- sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+- git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
+- brew install font-jetbrains-mono-nerd-font
+### Neovim
+- brew install ripgrep
+- brew install fd
+- brew install tmux
+- brew install nvm
+- brew install neovim
+- brew install lazygit
 - git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
+### zsh plugins
+- git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+- git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+- brew install thefuck
 
 ## Start from scratch
 ```
@@ -66,3 +74,8 @@ Ctrl + (hjkl)
 <C-space> n or p # navigate to previous or next window
 <C-space> w # show all windows
 ```
+
+
+## Java
+### Debugger
+Mason : java-debug-adapter, jdtls
