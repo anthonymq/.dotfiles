@@ -1,9 +1,14 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
-	config = function ()
+	dependencies = {
+		{ "LiadOz/nvim-dap-repl-highlights", branch = "LiadOz/fix-check-parser" },
+		"nvim-treesitter/nvim-treesitter-textobjects",
+	},
+	config = function()
 		local configs = require("nvim-treesitter.configs")
 
+		require("nvim-dap-repl-highlights").setup()
 		configs.setup({
 			ensure_installed = {
 				"json",
@@ -25,6 +30,7 @@ return {
 				"gitignore",
 				"hcl",
 				"java",
+				"dap_repl",
 			},
 			sync_install = false,
 			highlight = { enable = true },
@@ -36,7 +42,7 @@ return {
 			},
 			-- auto install above language parsers
 			auto_install = true,
-			indent = { enable = true },  
+			indent = { enable = true },
 		})
-	end
+	end,
 }
