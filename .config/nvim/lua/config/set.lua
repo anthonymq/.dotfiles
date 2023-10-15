@@ -9,7 +9,7 @@ set.softtabstop = 4
 set.expandtab = true
 
 -- Sync clipboard between OS and Neovim.
-vim.o.clipboard = 'unnamedplus'
+-- vim.o.clipboard = 'unnamedplus'
 
 set.wrap = false
 -- set.backup = false
