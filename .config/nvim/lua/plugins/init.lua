@@ -1,23 +1,115 @@
 return {
-	-- To automatically import any new plugin from 'lua/custom/plugins/*.lua' :
-	-- { import = 'custom.plugins' },
-	-- But manually requiring them feels more convenient to me
-	-- Theme
-	require("plugins.catppuccin"),
-	require("plugins.lualine"),
+	{
+		-- Theme
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
+		config = function()
+			require("catppuccin").setup({
+				flavour = "mocha", -- latte, frappe, macchiato, mocha
+				term_colors = true,
+				transparent_background = false,
+				no_italic = false,
+				no_bold = false,
+				styles = {
+					comments = {},
+					conditionals = {},
+					loops = {},
+					functions = {},
+					keywords = {},
+					strings = {},
+					variables = {},
+					numbers = {},
+					booleans = {},
+					properties = {},
+					types = {},
+				},
+				color_overrides = {
+					mocha = {
+						base = "#000000",
+						mantle = "#000000",
+						crust = "#000000",
+					},
+				},
+				highlight_overrides = {
+					mocha = function(C)
+						return {
+							TabLineSel = { bg = C.pink },
+							CmpBorder = { fg = C.surface2 },
+							Pmenu = { bg = C.none },
+							TelescopeBorder = { link = "FloatBorder" },
+						}
+					end,
+				},
+			})
+			vim.cmd.colorscheme("catppuccin")
+		end,
+	},
+
 	require("plugins.indent-blankline"),
 	{
 		"ThePrimeagen/vim-be-good",
 	},
-	require("plugins.telescope"),
-	require("plugins.treesitter"),
+	{ -- Highlight, edit, and navigate code
+		"nvim-treesitter/nvim-treesitter",
+		build = function()
+			pcall(require("nvim-treesitter.install").update({ with_sync = true }))
+		end,
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter-textobjects",
+			{ "LiadOz/nvim-dap-repl-highlights", branch = "LiadOz/fix-check-parser" },
+		},
+	},
+	{
+		"williamboman/mason.nvim",
+		"mfussenegger/nvim-dap",
+		"jay-babu/mason-nvim-dap.nvim",
+	},
+	{
+		"neovim/nvim-lspconfig",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			{ "antosha417/nvim-lsp-file-operations", config = true },
+			-- Automatically install LSPs to stdpath for neovim
+			"williamboman/mason-lspconfig.nvim",
+
+			-- Useful status updates for LSP
+			"j-hui/fidget.nvim",
+		},
+	},
 	require("plugins.undotree"),
 	require("plugins.nvim-cmp"),
 	require("plugins.gitsigns"),
 	require("plugins.nvim-autopairs"),
-	require("plugins.dadbod"),
+	-- Database
+	"kristijanhusak/vim-dadbod-ui",
+	"kristijanhusak/vim-dadbod-completion",
+	{
+		"tpope/vim-dadbod",
+		opt = true,
+		requires = {
+			"kristijanhusak/vim-dadbod-ui",
+			"kristijanhusak/vim-dadbod-completion",
+		},
+		config = function()
+			require("config.dadbod").setup()
+		end,
+	},
 	require("plugins.comment"),
-	require("plugins.treesitter-text-objects"),
+	"nvim-lualine/lualine.nvim",
+	"nvim-tree/nvim-web-devicons",
+	{
+		"nvim-telescope/telescope.nvim",
+		tag = "0.1.3",
+		-- or                              , branch = '0.1.x',
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+			"nvim-telescope/telescope-ui-select.nvim",
+			"nvim-tree/nvim-web-devicons",
+		},
+	},
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
@@ -36,7 +128,7 @@ return {
 		branch = "v3.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			-- "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
 			"MunifTanjim/nui.nvim",
 		},
 		config = function()
@@ -114,4 +206,8 @@ return {
 		"stevearc/dressing.nvim",
 		event = "VeryLazy",
 	},
+	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
+	"theHamsta/nvim-dap-virtual-text",
+	"leoluz/nvim-dap-go",
+	"tpope/vim-surround",
 }, {}
