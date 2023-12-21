@@ -31,7 +31,7 @@ crust = "#11111b"
 
 
 [aws]
-symbol = "  "
+symbol = "☁️  "
 format = "[$symbol]($style)"
 
 [buf]
@@ -56,7 +56,7 @@ read_only = " 󰌾"
 # truncation_symbol = '…/'
 
 [docker_context]
-symbol = " "
+symbol = "🐳 "
 format = "[$symbol]($style)"
 
 [elixir]
@@ -72,7 +72,7 @@ symbol = " "
 format = "[$symbol]($style)"
 
 [git_branch]
-symbol = " "
+symbol = " "
 format = 'on [$symbol$branch(:$remote_branch)]($style) '
 
 [golang]
@@ -182,7 +182,7 @@ format = "[$symbol]($style)"
 
 [python]
 symbol = " "
-format = "[$symbol]($style)"
+format = "[$symbol]($style) in venv: $virtualenv "
 
 [rlang]
 symbol = "󰟔 "

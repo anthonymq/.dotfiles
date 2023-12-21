@@ -2,11 +2,11 @@ local set = vim.opt
 set.relativenumber = true
 set.number = true
 -- Formatting
--- set.smartindent = true
--- set.shiftwidth = 4
--- set.tabstop = 4
--- set.softtabstop = 4
--- set.expandtab = true
+set.smartindent = true
+set.shiftwidth = 4
+set.tabstop = 4
+set.softtabstop = 4
+set.expandtab = true
 
 -- Sync clipboard between OS and Neovim.
 -- vim.o.clipboard = 'unnamedplus'

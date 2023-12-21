@@ -38,7 +38,7 @@ set_keymap({ "n", "v" }, "<leader>d", [["_d]])
 -- This is going to get me cancelled
 set_keymap("i", "<C-c>", "<Esc>")
 
-set_keymap("n", "Q", "<nop>")
+-- set_keymap("n", "Q", "<nop>")
 set_keymap("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 set_keymap("n", "<leader>f", vim.lsp.buf.format)
 
@@ -49,12 +49,13 @@ set_keymap("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 set_keymap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 set_keymap(
-	"n",
-	"<leader>X",
-	"<cmd>!chmod +x %<CR>",
-	{ silent = true, desc = "Make script executable (chmod +x current)" }
+    "n",
+    "<leader>X",
+    "<cmd>!chmod +x %<CR>",
+    { silent = true, desc = "Make script executable (chmod +x current)" }
 )
 
+set_keymap('t', "<Esc>", "<C-\\><C-n>") -- Escape terminal mode
 -- set_keymap("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>");
 -- set_keymap("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
 --
@@ -94,15 +95,15 @@ vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 -- Options through Telescope
 vim.api.nvim_set_keymap(
-	"n",
-	"<leader><tab>",
-	"<Cmd>lua require('telescope.builtin').commands()<CR>",
-	{ noremap = false }
+    "n",
+    "<leader><tab>",
+    "<Cmd>lua require('telescope.builtin').commands()<CR>",
+    { noremap = false }
 )
 
 set_keymap(
-	"n",
-	"<leader>x",
-	":bp<bar>sp<bar>bn<bar>bd<CR>",
-	{ silent = true, desc = "Close current buffer without exiting nvim" }
+    "n",
+    "<leader>x",
+    ":bp<bar>sp<bar>bn<bar>bd<CR>",
+    { silent = true, desc = "Close current buffer without exiting nvim" }
 )

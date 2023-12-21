@@ -58,7 +58,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git thefuck zsh-autosuggestions zsh-syntax-highlighting tmux)
-export ZSH_TMUX_AUTOSTART=true
+# export ZSH_TMUX_AUTOSTART=true
 
 source $ZSH/oh-my-zsh.sh
 
@@ -76,6 +76,7 @@ else
     export EDITOR='nvim'
 fi
 alias vim="nvim"
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -90,6 +91,9 @@ alias vim="nvim"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+alias ssh='env TERM=xterm-256color ssh' # allows kitty to work with ssh
+
 
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
@@ -100,11 +104,14 @@ export PATH="/usr/local/sbin:$PATH"
 export GOPATH="$HOME/go/bin"
 export PATH="$PATH:`go env GOPATH`/bin"
 export PATH="$PATH:$HOME/Library/Python/3.9/bin"
+export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/sbin:/usr/bin:$HOME/.nvm/versions/node/v13.9.0/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands"
 
 eval $(thefuck --alias)
+
+
 
 # git bare repository .dotfiles
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
@@ -120,3 +127,8 @@ export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
+
+# Created by `pipx` on 2023-11-07 15:47:40
+export PATH="$PATH:/Users/antmarqu3/.local/bin"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

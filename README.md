@@ -8,6 +8,7 @@ Store my dotfiles
 - sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 - git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 - brew install font-jetbrains-mono-nerd-font
+- brew install tmux bash zoxide fzf
 ### Neovim
 - brew install ripgrep
 - brew install fd

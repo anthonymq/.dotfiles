@@ -1,13 +1,15 @@
 local jdtls_ok, jdtls = pcall(require, "jdtls")
 if not jdtls_ok then
-    vim.notify "JDTLS not found, install with `:LspInstall jdtls`"
+    vim.notify("JDTLS not found, install with `:LspInstall jdtls`")
     return
 end
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
-local jdtls_path = vim.fn.stdpath('data') .. "/mason/packages/jdtls"
-local java_debug_adapter_path = vim.fn.stdpath('data') .. "/mason/share/java-debug-adapter"
+local jdtls_path = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
+local java_debug_adapter_path = vim.fn.stdpath("data") .. "/mason/share/java-debug-adapter"
 local java_debug_adapter_jar = java_debug_adapter_path .. "/com.microsoft.java.debug.plugin-*.jar"
+local java_test_adapter_jar =
+"/Users/antmarqu3/workspace-perso/vscode-java-test/server/*.jar"
 local path_to_lsp_server = jdtls_path .. "/config_mac"
 local path_to_plugins = jdtls_path .. "/plugins/"
 local path_to_jar = path_to_plugins .. "org.eclipse.equinox.launcher_1.6.500.v20230717-2134.jar"
@@ -24,27 +26,37 @@ end
 local workspace_dir = "/Users/antmarqu3/local/share/nvim/java"
 os.execute("mkdir " .. workspace_dir)
 
+local bundles = {
+    vim.fn.glob(java_debug_adapter_jar, 1),
+}
+vim.list_extend(bundles, vim.split(vim.fn.glob(java_test_adapter_jar, 1), "\n"))
+
 
 -- Main Config
 local config = {
     -- The command that starts the language server
     -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
     cmd = {
-        'java',
-        '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-        '-Dosgi.bundles.defaultStartLevel=4',
-        '-Declipse.product=org.eclipse.jdt.ls.core.product',
-        '-Dlog.protocol=true',
-        '-Dlog.level=ALL',
-        '-javaagent:' .. lombok_path,
-        '-Xms1g',
-        '--add-modules=ALL-SYSTEM',
-        '--add-opens', 'java.base/java.util=ALL-UNNAMED',
-        '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+        "java",
+        "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+        "-Dosgi.bundles.defaultStartLevel=4",
+        "-Declipse.product=org.eclipse.jdt.ls.core.product",
+        "-Dlog.protocol=true",
+        "-Dlog.level=ALL",
+        "-javaagent:" .. lombok_path,
+        "-Xms1g",
+        "--add-modules=ALL-SYSTEM",
+        "--add-opens",
+        "java.base/java.util=ALL-UNNAMED",
+        "--add-opens",
+        "java.base/java.lang=ALL-UNNAMED",
 
-        '-jar', path_to_jar,
-        '-configuration', path_to_lsp_server,
-        '-data', workspace_dir,
+        "-jar",
+        path_to_jar,
+        "-configuration",
+        path_to_lsp_server,
+        "-data",
+        workspace_dir,
     },
 
     -- This is the default if not provided, you can remove it. Or adjust as needed.
@@ -62,8 +74,7 @@ local config = {
             },
             configuration = {
                 updateBuildConfiguration = "interactive",
-                runtimes = {
-                }
+                runtimes = {},
             },
             maven = {
                 downloadSources = true,
@@ -101,7 +112,7 @@ local config = {
                 "java",
                 "javax",
                 "com",
-                "org"
+                "org",
             },
         },
         -- extendedClientCapabilities = extendedClientCapabilities,
@@ -123,38 +134,31 @@ local config = {
         allow_incremental_sync = true,
     },
     init_options = {
-        bundles = {
-            vim.fn.glob(
-                java_debug_adapter_jar,
-                1)
-        }
+        bundles = bundles,
     },
 }
 
-config['on_attach'] = function(_, bufnr)
+config["on_attach"] = function(_, bufnr)
     vim.notify("jdtls on_attach called")
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
     -- setLspKeybindings
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
     require("keymaps").setLspKeybindings(bufopts)
     -- set Debugger
-    jdtls.setup_dap { hotcodereplace = "auto" }
+    jdtls.setup_dap({ hotcodereplace = "auto" })
     require("jdtls.dap").setup_dap_main_class_configs()
-    require("jdtls.setup").add_commands()
 
     -- require'keymaps'.map_java_keys(bufnr);
-    require "lsp_signature".on_attach({
+    require("lsp_signature").on_attach({
         bind = true, -- This is mandatory, otherwise border config won't get registered.
         floating_window_above_cur_line = false,
-        padding = '',
+        padding = "",
         handler_opts = {
-            border = "rounded"
-        }
+            border = "rounded",
+        },
     }, bufnr)
-    require('jdtls').setup_dap({ hotcodereplace = 'auto' })
 end
-
 
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
-require('jdtls').start_or_attach(config)
+require("jdtls").start_or_attach(config)
