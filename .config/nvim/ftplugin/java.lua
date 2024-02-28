@@ -12,7 +12,7 @@ local java_test_adapter_jar =
 "/Users/antmarqu3/workspace-perso/vscode-java-test/server/*.jar"
 local path_to_lsp_server = jdtls_path .. "/config_mac"
 local path_to_plugins = jdtls_path .. "/plugins/"
-local path_to_jar = path_to_plugins .. "org.eclipse.equinox.launcher_1.6.500.v20230717-2134.jar"
+local path_to_jar = path_to_plugins .. "org.eclipse.equinox.launcher_1.6.600.v20231106-1826.jar"
 local lombok_path = jdtls_path .. "/lombok.jar"
 
 local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }
@@ -143,7 +143,7 @@ config["on_attach"] = function(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
     -- setLspKeybindings
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
-    require("keymaps").setLspKeybindings(bufopts)
+    -- require("keymaps").setLspKeybindings(bufopts)
     -- set Debugger
     jdtls.setup_dap({ hotcodereplace = "auto" })
     require("jdtls.dap").setup_dap_main_class_configs()

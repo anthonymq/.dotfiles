@@ -1,19 +1,29 @@
 return {
-	"numToStr/Comment.nvim",
-	event = { "BufReadPre", "BufNewFile" },
-	dependencies = {
-		"JoosepAlviste/nvim-ts-context-commentstring",
-	},
-	config = function()
-		-- import comment plugin safely
-		local comment = require("Comment")
+    "numToStr/Comment.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+    },
+    config = function()
+        -- import comment plugin safely
+        local comment = require("Comment")
+        local ft = require('Comment.ft')
 
-		local ts_context_commentstring = require("ts_context_commentstring.integrations.comment_nvim")
+        -- 1. Using set function
 
-		-- enable comment
-		comment.setup({
-			-- for commenting tsx and jsx files
-			pre_hook = ts_context_commentstring.create_pre_hook(),
-		})
-	end,
+        ft
+        -- Set only line comment
+            .set('templ', '<!--%s-->')
+        -- Or set both line and block commentstring
+        -- .set('javascript', { '//%s', '/*%s*/' })
+
+
+        local ts_context_commentstring = require("ts_context_commentstring.integrations.comment_nvim")
+
+        -- enable comment
+        comment.setup({
+            -- for commenting tsx and jsx files
+            pre_hook = ts_context_commentstring.create_pre_hook(),
+        })
+    end,
 }

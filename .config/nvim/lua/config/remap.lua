@@ -4,18 +4,14 @@ local set_keymap = vim.keymap.set
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+vim.api.nvim_set_keymap("i", "jj", "<Esc>", { noremap = false })
+
 -- Delete single character without copying into register
 set_keymap({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 set_keymap("n", "x", '"_x')
 
--- Move text up and down
-set_keymap("n", "<M-j>", ":m .+1<CR>==")
-set_keymap("n", "<M-k>", ":m .-2<CR>==")
-set_keymap("v", "<M-j>", ":m '>+1<CR>gv=gv")
-set_keymap("v", "<M-k>", ":m '<-2<CR>gv=gv")
-
 -- perso
-set_keymap("n", "<leader>po", "<Cmd>Neotree toggle<CR>", { desc = "Open file explorer NeoTree" })
+-- set_keymap("n", "<leader>po", "<Cmd>Neotree toggle<CR>", { desc = "Open file explorer NeoTree" })
 
 set_keymap("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection UP (Visual Mode)" })
 set_keymap("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection DOWN (Visual Mode)" })
@@ -54,19 +50,7 @@ set_keymap(
     "<cmd>!chmod +x %<CR>",
     { silent = true, desc = "Make script executable (chmod +x current)" }
 )
-
 set_keymap('t', "<Esc>", "<C-\\><C-n>") -- Escape terminal mode
--- set_keymap("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>");
--- set_keymap("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
---
--- set_keymap("n", "<leader><leader>", function()
---     vim.cmd("so")
--- end)
---
--- vim.api.nvim_set_keymap("i", "jj", "<Esc>", {noremap=false})
--- twilight
-set_keymap("n", "tw", ":Twilight<enter>", { noremap = false })
--- buffers
 set_keymap("n", "tk", ":bnext<enter>", { noremap = false })
 set_keymap("n", "tj", ":bprev<enter>", { noremap = false })
 set_keymap("n", "th", ":bfirst<enter>", { noremap = false })
@@ -106,4 +90,10 @@ set_keymap(
     "<leader>x",
     ":bp<bar>sp<bar>bn<bar>bd<CR>",
     { silent = true, desc = "Close current buffer without exiting nvim" }
+)
+
+vim.keymap.set(
+    "n",
+    "<leader>ee",
+    "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
 )

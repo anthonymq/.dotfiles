@@ -3,46 +3,12 @@ return {
         -- Theme
         "catppuccin/nvim",
         name = "catppuccin",
+        lazy = false,
         priority = 1000,
         config = function()
             require("catppuccin").setup({
                 flavour = "mocha", -- latte, frappe, macchiato, mocha
-                -- term_colors = true,
-                -- transparent_background = false,
-                -- no_italic = false,
-                -- no_bold = false,
-                -- styles = {
-                --     comments = {},
-                --     conditionals = {},
-                --     loops = {},
-                --     functions = {},
-                --     keywords = {},
-                --     strings = {},
-                --     variables = {},
-                --     numbers = {},
-                --     booleans = {},
-                --     properties = {},
-                --     types = {},
-                -- },
-                -- color_overrides = {
-                --     mocha = {
-                --         base = "#000000",
-                --         mantle = "#000000",
-                --         crust = "#000000",
-                --     },
-                -- },
-                -- highlight_overrides = {
-                --     mocha = function(C)
-                --         return {
-                --             TabLineSel = { bg = C.pink },
-                --             CmpBorder = { fg = C.surface2 },
-                --             Pmenu = { bg = C.none },
-                --             TelescopeBorder = { link = "FloatBorder" },
-                --         }
-                --     end,
-                -- },
-                -- })
-                background = { -- :h background
+                background = {     -- :h background
                     light = "latte",
                     dark = "mocha",
                 },
@@ -87,60 +53,12 @@ return {
                 },
             })
             vim.cmd.colorscheme("catppuccin")
+            -- Change la couleur du pane actif
+            vim.cmd("highlight Normal guifg=#cdd6f5 guibg=none ctermbg=none")
         end,
     },
 
-    require("plugins.indent-blankline"),
-    "ThePrimeagen/vim-be-good",
-    { -- Highlight, edit, and navigate code
-        "nvim-treesitter/nvim-treesitter",
-        build = function()
-            pcall(require("nvim-treesitter.install").update({ with_sync = true }))
-        end,
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter-textobjects",
-            { "LiadOz/nvim-dap-repl-highlights", branch = "LiadOz/fix-check-parser" },
-        },
-    },
-    {
-        "williamboman/mason.nvim",
-        "mfussenegger/nvim-dap",
-        "jay-babu/mason-nvim-dap.nvim",
-    },
-    {
-        "neovim/nvim-lspconfig",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            { "antosha417/nvim-lsp-file-operations", config = true },
-            -- Automatically install LSPs to stdpath for neovim
-            "williamboman/mason-lspconfig.nvim",
-
-            -- Useful status updates for LSP
-            "j-hui/fidget.nvim",
-        },
-    },
-    require("plugins.undotree"),
-    require("plugins.nvim-cmp"),
-    require("plugins.gitsigns"),
-    require("plugins.nvim-autopairs"),
-    -- Database
-    -- require("plugins.dadbod"),
-    "kristijanhusak/vim-dadbod-ui",
-    "kristijanhusak/vim-dadbod-completion",
-    {
-        "tpope/vim-dadbod",
-        opt = true,
-        requires = {
-            "kristijanhusak/vim-dadbod-ui",
-            "kristijanhusak/vim-dadbod-completion",
-        },
-        config = function()
-            require("config.dadbod").setup()
-        end,
-    },
-    require("plugins.comment"),
-    "nvim-lualine/lualine.nvim",
+    -- "ThePrimeagen/vim-be-good",
     "nvim-tree/nvim-web-devicons",
     {
         "nvim-telescope/telescope.nvim",
@@ -169,6 +87,12 @@ return {
             },
         },
     },
+    -- {
+    --     'stevearc/oil.nvim',
+    --     opts = {},
+    --     -- Optional dependencies
+    --     dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- },
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v3.x",
@@ -192,7 +116,7 @@ return {
 
                 -- log_level = "trace",
                 -- log_to_file = true,
-                -- hijack_netrw_behavior = "open_default",
+                hijack_netrw_behavior = "open_default",
                 enable_git_status = true,
                 filesystem = {
                     filtered_items = {
@@ -206,6 +130,11 @@ return {
                 },
             })
         end,
+        lazy = false,
+        keys = {
+
+            { "<leader>po", "<Cmd>Neotree toggle<CR>", desc = "Open file explorer NeoTree" }
+        }
     },
     {
         "folke/noice.nvim",
@@ -223,6 +152,22 @@ return {
         },
         config = function()
             require("noice").setup({
+                -- add any options here
+                routes = {
+                    {
+                        filter = {
+                            event = 'msg_show',
+                            any = {
+                                { find = '%d+L, %d+B' },
+                                { find = '; after #%d+' },
+                                { find = '; before #%d+' },
+                                { find = '%d fewer lines' },
+                                { find = '%d more lines' },
+                            },
+                        },
+                        opts = { skip = true },
+                    }
+                },
                 lsp = {
                     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
                     override = {
@@ -240,48 +185,32 @@ return {
                     lsp_doc_border = false,       -- add a border to hover docs and signature help
                 },
             })
+            require("notify").setup({
+                render = "compact",
+                background_colour = "#000000",
+            })
         end,
     },
     {
         "kdheepak/lazygit.nvim",
+        event = "VeryLazy",
         -- optional for floating window border decoration
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
     },
-    { "christoomey/vim-tmux-navigator" },
-    { "mhinz/vim-startify" },
+    {
+        "christoomey/vim-tmux-navigator",
+    },
     {
         "stevearc/dressing.nvim",
         event = "VeryLazy",
     },
-    { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
-    "theHamsta/nvim-dap-virtual-text",
-    "leoluz/nvim-dap-go",
     {
-        "mfussenegger/nvim-dap-python",
-        ft = "python",
-        dependencies = { "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui" },
-        config = function(_, opts)
-            local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
-            require("dap-python").setup(path)
-        end,
+        -- parenthesis brackets quotes... All surroundings
+        "tpope/vim-surround",
+        event = { "BufNewFile", "BufReadPre" }
     },
-    -- select virtual environments
-    -- - makes pyright and debugpy aware of the selected virtual environment
-    -- - Select a virtual environment with `:VenvSelect`
-    {
-        "linux-cultist/venv-selector.nvim",
-        dependencies = {
-            "neovim/nvim-lspconfig",
-            "nvim-telescope/telescope.nvim",
-            "mfussenegger/nvim-dap-python",
-        },
-        opts = {
-            dap_enabled = true, -- makes the debugger work with venv
-        },
-    },
-    "tpope/vim-surround",
     {
         "ray-x/go.nvim",
         dependencies = { -- optional packages
@@ -292,25 +221,18 @@ return {
         config = function()
             require("go").setup()
         end,
-        event = { "CmdlineEnter" },
+        -- event = { "CmdlineEnter" },
+        -- enabled = false,
+        event = {
+            "BufRead *.go,*.mod,*.sum",
+            "BufNewFile *.go,*.mod,*.sum",
+        },
         ft = { "go", "gomod" },
         build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
     },
     {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        dependencies = { "nvim-lua/plenary.nvim" }
-    },
-    {
+        -- integration IA model local
         "David-Kunz/gen.nvim",
+        event = "VeryLazy"
     },
-    {
-        "nvim-neotest/neotest",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "antoinemadec/FixCursorHold.nvim",
-            "nvim-neotest/neotest-python",
-            "rcasia/neotest-java",
-        }
-    }
 }, {}

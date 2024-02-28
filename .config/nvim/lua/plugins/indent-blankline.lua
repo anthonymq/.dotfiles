@@ -1,13 +1,15 @@
 return {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
+    event = { "BufReadPre", "BufNewFile" },
+    main = "ibl",
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
     opts = {
         -- char = "┊",
         -- show_trailing_blankline_indent = false,
     },
-    config = function ()
+    config = function()
         local highlight = {
             "RainbowRed",
             "RainbowYellow",

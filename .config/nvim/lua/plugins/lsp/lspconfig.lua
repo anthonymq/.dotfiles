@@ -1,153 +1,235 @@
 return {
-	"neovim/nvim-lspconfig",
-	event = { "BufReadPre", "BufNewFile" },
-	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
-		{ "antosha417/nvim-lsp-file-operations", config = true },
-		-- Automatically install LSPs to stdpath for neovim
-		"williamboman/mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
+    {
+        "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            "hrsh7th/cmp-nvim-lsp",
+            { "antosha417/nvim-lsp-file-operations", config = true },
+            -- Automatically install LSPs to stdpath for neovim
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
 
-		-- Useful status updates for LSP
-		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-		{ "j-hui/fidget.nvim", tag = "legacy", opts = {} },
-		-- Additional lua configuration, makes nvim stuff amazing!
-		"folke/neodev.nvim",
-	},
-	-- config = function()
-	-- 	-- import lspconfig plugin
-	-- 	local lspconfig = require("lspconfig")
-	--
-	-- 	-- import cmp-nvim-lsp plugin
-	-- 	local cmp_nvim_lsp = require("cmp_nvim_lsp")
-	--
-	-- 	local opts = {
-	-- 		noremap = true,
-	-- 		silent = true,
-	-- 		-- make sure mason installs the server
-	-- 		-- servers = {
-	-- 		--     jdtls = {},
-	-- 		-- },
-	-- 		-- setup = {
-	-- 		--     jdtls = function()
-	-- 		--         return true -- avoid duplicate servers
-	-- 		--     end,
-	-- 		-- },
-	-- 	}
-	-- 	local on_attach = function(_, bufnr)
-	-- 		opts.buffer = bufnr
-	-- 		require("keymaps").setLspKeybindings(opts)
-	-- 	end
-	--
-	-- 	-- used to enable autocompletion (assign to every lsp server config)
-	-- 	local capabilities = cmp_nvim_lsp.default_capabilities()
-	--
-	-- 	-- Change the Diagnostic symbols in the sign column (gutter)
-	-- 	local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-	-- 	for type, icon in pairs(signs) do
-	-- 		local hl = "DiagnosticSign" .. type
-	-- 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-	-- 	end
-	--
-	-- 	-- configure html server
-	-- 	lspconfig["html"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 	})
-	--
-	-- 	-- configure typescript server with plugin
-	-- 	lspconfig["tsserver"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 	})
-	--
-	-- 	-- configure css server
-	-- 	lspconfig["cssls"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 	})
-	--
-	-- 	-- configure tailwindcss server
-	-- 	lspconfig["tailwindcss"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 	})
-	--
-	-- 	-- configure svelte server
-	-- 	lspconfig["svelte"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = function(client, bufnr)
-	-- 			on_attach(client, bufnr)
-	--
-	-- 			vim.api.nvim_create_autocmd("BufWritePost", {
-	-- 				pattern = { "*.js", "*.ts" },
-	-- 				callback = function(ctx)
-	-- 					if client.name == "svelte" then
-	-- 						client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.file })
-	-- 					end
-	-- 				end,
-	-- 			})
-	-- 		end,
-	-- 	})
-	--
-	-- 	-- configure prisma orm server
-	-- 	lspconfig["prismals"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 	})
-	--
-	-- 	-- configure graphql language server
-	-- 	lspconfig["graphql"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 		filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-	-- 	})
-	--
-	-- 	-- configure emmet language server
-	-- 	lspconfig["emmet_ls"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 		filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
-	-- 	})
-	--
-	-- 	-- configure python server
-	-- 	lspconfig["pyright"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 	})
-	--
-	-- 	-- configure lua server (with special settings)
-	-- 	lspconfig["lua_ls"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 		settings = { -- custom settings for lua
-	-- 			Lua = {
-	-- 				-- make the language server recognize "vim" global
-	-- 				diagnostics = {
-	-- 					globals = { "vim" },
-	-- 				},
-	-- 				workspace = {
-	-- 					-- make language server aware of runtime files
-	-- 					library = {
-	-- 						[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-	-- 						[vim.fn.stdpath("config") .. "/lua"] = true,
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		},
-	-- 	})
-	--
-	-- 	-- configure python server
-	-- 	lspconfig["terraformls"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 		filetypes = { "tf", "terraform" },
-	-- 	})
-	--
-	-- 	-- configure css server
-	-- 	lspconfig["gopls"].setup({
-	-- 		capabilities = capabilities,
-	-- 		on_attach = on_attach,
-	-- 	})
-	-- end,
+            -- Useful status updates for LSP
+            -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+            { "j-hui/fidget.nvim",                   tag = "legacy", opts = {} },
+            -- Additional lua configuration, makes nvim stuff amazing!
+            "folke/neodev.nvim",
+            "folke/trouble.nvim"
+        },
+        config = function()
+            -- mason-lspconfig requires that these setup functions are called in this order
+            -- before setting up the servers.
+            require("mason").setup()
+            require("mason-lspconfig").setup()
+            local nvim_lsp = require("lspconfig")
+
+            -- Enable the following language servers
+            -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
+            local servers = {
+                rust_analyzer = {},
+                gopls = {},
+                html = {
+                    filetypes = {
+                        "html",
+                        "templ"
+                    }
+                },
+                htmx = {
+                    filetypes = {
+                        "html",
+                        "templ"
+                    }
+                },
+                lua_ls = {
+                    Lua = {
+                        workspace = { checkThirdParty = false },
+                        telemetry = { enable = false },
+                    },
+                },
+                jdtls = {},
+                terraformls = {},
+                bashls = {},
+                sqlls = {
+                    filetypes = {
+                        "sql",
+                        "postgresql",
+                    },
+                },
+                jedi_language_server = {},
+                -- autotools_ls = {}
+                astro = {},
+                templ = {},
+            }
+
+            -- Setup neovim lua configuration
+            -- require("neodev").setup()
+
+            -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+            -- Ensure the servers above are installed
+            local mason_lspconfig = require("mason-lspconfig")
+
+            mason_lspconfig.setup({
+                ensure_installed = vim.tbl_keys(servers),
+            })
+
+            mason_lspconfig.setup_handlers({
+                function(server_name)
+                    if server_name == "jdtls" then
+                        return true
+                    end
+                    require("lspconfig")[server_name].setup({
+                        capabilities = capabilities,
+                        -- on_attach = on_attach,
+                        settings = servers[server_name],
+                        filetypes = (servers[server_name] or {}).filetypes,
+                    })
+                end,
+            })
+
+            -- -- Turn on lsp status information
+            --
+            -- Turn on lsp status information
+            require("fidget").setup()
+
+            -- require("lspconfig").jdtls.setup({ nil })
+            -- Example custom configuration for lua
+            --
+            -- Make runtime files discoverable to the server
+            local runtime_path = vim.split(package.path, ";")
+            table.insert(runtime_path, "lua/?.lua")
+            table.insert(runtime_path, "lua/?/init.lua")
+
+            require("lspconfig").nomad_lsp.setup({
+                capabilities = capabilities,
+                -- filetypes = { "nomad" },
+                -- cmd = { "nomad-lsp" },
+                -- root_dir = nvim_lsp.util.root_pattern("nomad"),
+
+            })
+            require("lspconfig").luau_lsp.setup({
+                -- on_attach = on_attach,
+                capabilities = capabilities,
+                settings = {
+                    Lua = {
+                        runtime = {
+                            -- Tell the language server which version of Lua you're using (most likely LuaJIT)
+                            version = "LuaJIT",
+                            -- Setup your lua path
+                            path = runtime_path,
+                        },
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true),
+                            checkThirdParty = false,
+                        },
+                        -- Do not send telemetry data containing a randomized but unique identifier
+                        telemetry = { enable = false },
+                    },
+                },
+            })
+            --
+            -- nvim-cmp setup
+            local cmp = require("cmp")
+            local luasnip = require("luasnip")
+            require("luasnip.loaders.from_vscode").lazy_load()
+            -- luasnip.config.setup({})
+
+            cmp.setup {
+                snippet = {
+                    expand = function(args)
+                        luasnip.lsp_expand(args.body)
+                    end,
+                },
+                mapping = cmp.mapping.preset.insert {
+                    ["<c-a>"] = cmp.mapping.complete {
+                        config = {
+                            sources = {
+                                { name = "cody" },
+                            },
+                        },
+                    },
+                    ['<C-n>'] = cmp.mapping.select_next_item(),
+                    ['<C-p>'] = cmp.mapping.select_prev_item(),
+                    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                    ['<C-Space>'] = cmp.mapping.complete {},
+                    ['<CR>'] = cmp.mapping.confirm {
+                        behavior = cmp.ConfirmBehavior.Replace,
+                        select = true,
+                    },
+                    ['<Tab>'] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.select_next_item()
+                        elseif luasnip.expand_or_locally_jumpable() then
+                            luasnip.expand_or_jump()
+                        else
+                            fallback()
+                        end
+                    end, { 'i', 's' }),
+                    ['<S-Tab>'] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.select_prev_item()
+                        elseif luasnip.locally_jumpable(-1) then
+                            luasnip.jump(-1)
+                        else
+                            fallback()
+                        end
+                    end, { 'i', 's' }),
+                },
+                sources = {
+                    { name = "cody" },
+                    { name = "nvim_lsp_signature_help" },
+                    { name = "nvim_lsp" },
+                    { name = "luasnip" },
+                    -- { name = "vim-dadbod-completion" },
+                    { name = "path" },
+                    { name = "buffer",                 keyword_length = 5 },
+                },
+                window = {
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
+                },
+                experimental = {
+                    ghost_text = true,
+                },
+            }
+
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "sh",
+                callback = function()
+                    vim.lsp.start({
+                        name = "bash-language-server",
+                        cmd = { "bash-language-server", "start" },
+                    })
+                end,
+            })
+        end
+    },
+    {
+        "folke/trouble.nvim",
+        lazy = true,
+        config = function()
+            local trouble = require("trouble")
+            require("trouble").setup({
+                icons = false,
+            })
+
+            vim.keymap.set("n", "<leader>d", function()
+                trouble.toggle()
+            end)
+
+            vim.keymap.set("n", "[t", function()
+                require("trouble").next({ skip_groups = true, jump = true });
+            end)
+
+            vim.keymap.set("n", "]t", function()
+                require("trouble").previous({ skip_groups = true, jump = true });
+            end)
+        end
+    },
 }
