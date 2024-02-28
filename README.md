@@ -4,7 +4,7 @@ Store my dotfiles
 ## Prerequisites
 ### Terminal
 - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-- brew install git 
+- brew install git
 - sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 - git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 - brew install font-jetbrains-mono-nerd-font
@@ -21,6 +21,12 @@ Store my dotfiles
 - git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 - git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 - brew install thefuck
+### Mac window manager
+- yabai skhd
+- https://github.com/FelixKratz/JankyBorders
+ - brew tap FelixKratz/formulae
+ - brew install borders
+
 
 ## Start from scratch
 ```
@@ -71,7 +77,7 @@ Ctrl + (hjkl)
 
 # Windows
 <C-space> c # new Window
-<C-space> number # navigate to the window number x 
+<C-space> number # navigate to the window number x
 <C-space> n or p # navigate to previous or next window
 <C-space> w # show all windows
 ```
