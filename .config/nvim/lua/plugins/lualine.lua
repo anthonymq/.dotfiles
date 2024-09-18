@@ -1,5 +1,9 @@
 return {
     "nvim-lualine/lualine.nvim",
+    dependencies = {
+        "nvim-tree/nvim-web-devicons",
+        "meuter/lualine-so-fancy.nvim",
+    },
     event = "VeryLazy",
     config = function()
         require("lualine").setup({
@@ -12,6 +16,7 @@ return {
                 lualine_a = { 'mode' },
                 lualine_b = { 'branch' },
                 lualine_x = {
+                    { "fancy_macro" },
                     "diff",
                     "diagnostics",
                     -- color = { fg = "#ff9e64" },
@@ -20,6 +25,9 @@ return {
                     {
                         "buffers",
                     },
+                },
+                lualine_z = {
+                    { "fancy_lsp_servers" }
                 },
             },
         })

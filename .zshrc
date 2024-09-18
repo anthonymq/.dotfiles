@@ -1,4 +1,4 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 # if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -60,7 +60,7 @@ bindkey "^[^[[D" backward-word
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git thefuck zsh-autosuggestions zsh-syntax-highlighting tmux)
+plugins=(git thefuck zsh-autosuggestions zsh-syntax-highlighting tmux aws)
 # export ZSH_TMUX_AUTOSTART=true
 
 source $ZSH/oh-my-zsh.sh
@@ -98,7 +98,10 @@ alias vim="nvim"
 alias ssh='env TERM=xterm-256color ssh' # allows kitty to work with ssh
 alias icat='kitten icat'
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit -m "[WIP]: $(date)"'
-
+alias l="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
+alias serve="python3 -m http.server 8000"
+alias search='nvim $(fzf --preview="cat {}")'
 
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
@@ -110,6 +113,7 @@ export GOPATH="$HOME/go/bin"
 export PATH="$PATH:`go env GOPATH`/bin"
 export PATH="$PATH:$HOME/Library/Python/3.9/bin"
 export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
+export PATH="$PATH:/Users/antmarqu3/.gem/ruby/2.6.0/bin"
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/sbin:/usr/bin:$HOME/.nvm/versions/node/v13.9.0/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands"
@@ -137,3 +141,16 @@ eval "$(starship init zsh)"
 export PATH="$PATH:/Users/antmarqu3/.local/bin"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"

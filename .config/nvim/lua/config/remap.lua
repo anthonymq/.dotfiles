@@ -35,7 +35,7 @@ set_keymap({ "n", "v" }, "<leader>d", [["_d]])
 set_keymap("i", "<C-c>", "<Esc>")
 
 -- set_keymap("n", "Q", "<nop>")
-set_keymap("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+-- set_keymap("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 set_keymap("n", "<leader>f", vim.lsp.buf.format)
 
 set_keymap("n", "<C-k>", "<cmd>cnext<CR>zz")
@@ -43,7 +43,7 @@ set_keymap("n", "<C-j>", "<cmd>cprev<CR>zz")
 set_keymap("n", "<leader>k", "<cmd>lnext<CR>zz")
 set_keymap("n", "<leader>j", "<cmd>lprev<CR>zz")
 
-set_keymap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+-- set_keymap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 set_keymap(
     "n",
     "<leader>X",
@@ -57,7 +57,7 @@ set_keymap("n", "th", ":bfirst<enter>", { noremap = false })
 set_keymap("n", "tl", ":blast<enter>", { noremap = false })
 set_keymap("n", "td", ":bdelete<enter>", { noremap = false })
 -- files
-set_keymap("n", "QQ", ":q!<enter>", { noremap = false })
+-- set_keymap("n", "QQ", ":q!<enter>", { noremap = false })
 set_keymap("n", "WW", ":w!<enter>", { noremap = false })
 set_keymap("n", "E", "$", { noremap = false })
 set_keymap("n", "B", "^", { noremap = false })

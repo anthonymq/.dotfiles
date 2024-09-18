@@ -12,7 +12,11 @@ local java_test_adapter_jar =
 "/Users/antmarqu3/workspace-perso/vscode-java-test/server/*.jar"
 local path_to_lsp_server = jdtls_path .. "/config_mac"
 local path_to_plugins = jdtls_path .. "/plugins/"
-local path_to_jar = path_to_plugins .. "org.eclipse.equinox.launcher_1.6.600.v20231106-1826.jar"
+local path_to_jar = path_to_plugins .. "org.eclipse.equinox.launcher_*.jar"
+local jdtls_jar = vim.fn.glob(path_to_jar)
+vim.notify("lol")
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+
 local lombok_path = jdtls_path .. "/lombok.jar"
 
 local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }
@@ -52,16 +56,16 @@ local config = {
         "java.base/java.lang=ALL-UNNAMED",
 
         "-jar",
-        path_to_jar,
+        jdtls_jar,
         "-configuration",
         path_to_lsp_server,
         "-data",
-        workspace_dir,
+        vim.fn.expand("~/.cache/jdtls/workspace") .. project_name,
     },
 
     -- This is the default if not provided, you can remove it. Or adjust as needed.
     -- One dedicated LSP server & client will be started per unique root_dir
-    root_dir = root_dir,
+    -- root_dir = root_dir,
 
     -- Here you can configure eclipse.jdt.ls specific settings
     -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -140,23 +144,23 @@ local config = {
 
 config["on_attach"] = function(_, bufnr)
     vim.notify("jdtls on_attach called")
-    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+    -- vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
     -- setLspKeybindings
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    -- local bufopts = { noremap = true, silent = true, buffer = bufnr }
     -- require("keymaps").setLspKeybindings(bufopts)
     -- set Debugger
     jdtls.setup_dap({ hotcodereplace = "auto" })
     require("jdtls.dap").setup_dap_main_class_configs()
 
     -- require'keymaps'.map_java_keys(bufnr);
-    require("lsp_signature").on_attach({
-        bind = true, -- This is mandatory, otherwise border config won't get registered.
-        floating_window_above_cur_line = false,
-        padding = "",
-        handler_opts = {
-            border = "rounded",
-        },
-    }, bufnr)
+    -- require("lsp_signature").on_attach({
+    --     bind = true, -- This is mandatory, otherwise border config won't get registered.
+    --     floating_window_above_cur_line = false,
+    --     padding = "",
+    --     handler_opts = {
+    --         border = "rounded",
+    --     },
+    -- }, bufnr)
 end
 
 -- This starts a new client & server,

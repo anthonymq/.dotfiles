@@ -11,7 +11,8 @@ vim.filetype.add({
     },
     extension = {
         templ = "templ",
-        nomad = "hcl.nomad"
+        nomad = "hcl.nomad",
+        tfvars = "terraform"
         -- nomad = "nomad"
     }
 })

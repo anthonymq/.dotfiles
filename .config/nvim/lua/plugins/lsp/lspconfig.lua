@@ -31,13 +31,13 @@ return {
                 html = {
                     filetypes = {
                         "html",
-                        "templ"
+                        -- "templ"
                     }
                 },
                 htmx = {
                     filetypes = {
                         "html",
-                        "templ"
+                        -- "templ"
                     }
                 },
                 lua_ls = {
@@ -62,7 +62,7 @@ return {
             }
 
             -- Setup neovim lua configuration
-            -- require("neodev").setup()
+            require("neodev").setup()
 
             -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
             local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -158,10 +158,11 @@ return {
                     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),
                     ['<C-Space>'] = cmp.mapping.complete {},
-                    ['<CR>'] = cmp.mapping.confirm {
-                        behavior = cmp.ConfirmBehavior.Replace,
-                        select = true,
-                    },
+                    -- ['<CR>'] = cmp.mapping.confirm {
+                    --     behavior = cmp.ConfirmBehavior.Replace,
+                    --     select = true,
+                    -- },
+                    ['<C-y>'] = cmp.mapping.confirm { select = true },
                     ['<Tab>'] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item()
@@ -212,24 +213,39 @@ return {
     },
     {
         "folke/trouble.nvim",
-        lazy = true,
-        config = function()
-            local trouble = require("trouble")
-            require("trouble").setup({
-                icons = false,
-            })
-
-            vim.keymap.set("n", "<leader>d", function()
-                trouble.toggle()
-            end)
-
-            vim.keymap.set("n", "[t", function()
-                require("trouble").next({ skip_groups = true, jump = true });
-            end)
-
-            vim.keymap.set("n", "]t", function()
-                require("trouble").previous({ skip_groups = true, jump = true });
-            end)
-        end
+        opts = {}, -- for default options, refer to the configuration section for custom setup.
+        cmd = "Trouble",
+        keys = {
+            {
+                "<leader>d",
+                "<cmd>Trouble diagnostics toggle<cr>",
+                desc = "Diagnostics (Trouble)",
+            },
+            {
+                "<leader>dd",
+                "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+                desc = "Buffer Diagnostics (Trouble)",
+            },
+            {
+                "<leader>cs",
+                "<cmd>Trouble symbols toggle focus=false<cr>",
+                desc = "Symbols (Trouble)",
+            },
+            {
+                "<leader>cl",
+                "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+                desc = "LSP Definitions / references / ... (Trouble)",
+            },
+            -- {
+            --     "<leader>xL",
+            --     "<cmd>Trouble loclist toggle<cr>",
+            --     desc = "Location List (Trouble)",
+            -- },
+            -- {
+            --     "<leader>xQ",
+            --     "<cmd>Trouble qflist toggle<cr>",
+            --     desc = "Quickfix List (Trouble)",
+            -- },
+        },
     },
 }

@@ -7,6 +7,7 @@ return {
             "williamboman/mason.nvim",
             "jay-babu/mason-nvim-dap.nvim",
             "theHamsta/nvim-dap-virtual-text",
+            "nvim-neotest/nvim-nio",
         },
         config = function()
             local dap = require("dap")
@@ -67,7 +68,11 @@ return {
     },
     {
         "leoluz/nvim-dap-go",
-        ft = "go"
+        ft = "go",
+        dependencies = { "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui" },
+        config = function()
+            require('dap-go').setup()
+        end
     },
     {
         "mfussenegger/nvim-dap-python",
