@@ -1,9 +1,9 @@
 return {
-    {
-        "mbbill/undotree",
-        event = { "BufReadPre", "BufNewFile" },
-        config = function()
-            vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = "Toggle Undotree" })
-        end,
-    }
+  {
+    "mbbill/undotree",
+    event = { "BufReadPre", "BufNewFile" },
+    keys = {
+      { "<leader>u", vim.cmd.UndotreeToggle, "Toggle Undotree" },
+    },
+  },
 }
